@@ -4,7 +4,7 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebas
 
 // 🔧 REPLACE THESE WITH YOUR FIREBASE PROJECT CONFIG
 const firebaseConfig = {
-  apiKey: "AIzaSyCdM2JkifxqqaUJ6Hjp1tu_qwrqMGnSDPs",
+  apiKey: "AIzaSyADT9EHbM7pxGWgeEV74dhZ0mgg8FbhcTE",
   authDomain: "habitflow-123.firebaseapp.com",
   databaseURL: "https://habitflow-123-default-rtdb.firebaseio.com",
   projectId: "habitflow-123",
