@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Offline — HabitFlow</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico"/>
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png"/>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#E8631A"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="HabitFlow"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+</head>
+<body style="display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:24px;">
+  <div>
+    <div style="font-size:4rem;margin-bottom:24px;">📡</div>
+    <h1 style="font-family:'Syne',sans-serif;font-size:2rem;margin-bottom:12px;">You're offline</h1>
+    <p style="color:var(--text2,#6B6460);margin-bottom:32px;max-width:320px;">
+      No internet connection. Your habits are safely stored — reconnect to sync.
+    </p>
+    <button onclick="window.location.reload()" class="btn-primary">Try again</button>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(r => console.log('SW registered'))
+          .catch(e => console.log('SW failed:', e));
+      });
+    }
+  </script>
+</body>
+</html>

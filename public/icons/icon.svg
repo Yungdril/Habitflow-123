@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1A1614"/>
+      <stop offset="100%" stop-color="#2A1A0E"/>
+    </linearGradient>
+    <linearGradient id="flame" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#E8631A"/>
+      <stop offset="50%" stop-color="#F28C3A"/>
+      <stop offset="100%" stop-color="#FFBC6A"/>
+    </linearGradient>
+    <clipPath id="round">
+      <rect width="512" height="512" rx="112"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+
+  <!-- Subtle grid texture overlay -->
+  <rect width="512" height="512" rx="112" fill="#E8631A" opacity="0.04"/>
+
+  <!-- Left vertical bar of H -->
+  <rect x="108" y="118" width="88" height="276" rx="22" fill="#FFFFFF"/>
+
+  <!-- Right vertical bar of H -->
+  <rect x="316" y="118" width="88" height="276" rx="22" fill="#FFFFFF"/>
+
+  <!-- Crossbar left half (stops before flame) -->
+  <rect x="108" y="218" width="104" height="76" rx="18" fill="#FFFFFF"/>
+
+  <!-- Crossbar right half (stops after flame) -->
+  <rect x="300" y="218" width="104" height="76" rx="18" fill="#FFFFFF"/>
+
+  <!-- FLAME — organic path cutting through the H crossbar gap -->
+  <path d="
+    M256,340
+    C240,318 228,290 234,258
+    C238,236 246,218 252,198
+    C248,214 244,228 248,244
+    C240,224 244,202 250,182
+    C254,166 258,150 256,134
+    C262,150 274,168 270,190
+    C268,176 272,162 278,148
+    C284,168 282,196 274,218
+    C282,204 292,192 294,176
+    C298,200 294,230 280,252
+    C290,238 300,224 298,206
+    C304,228 300,260 284,282
+    C292,270 298,256 296,242
+    C302,262 298,292 282,314
+    C274,326 264,334 256,340
+    Z
+  " fill="url(#flame)"/>
+
+  <!-- Green check badge — bottom right -->
+  <circle cx="390" cy="390" r="58" fill="#16A34A"/>
+  <circle cx="390" cy="390" r="48" fill="#22C55E"/>
+  <!-- Checkmark path -->
+  <polyline
+    points="364,390 382,408 420,370"
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="14"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

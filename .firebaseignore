@@ -1,0 +1,10 @@
+.venv
+node_modules
+functions/node_modules
+*.exe
+*.dll
+*.apk
+*.keystore
+*.py
+DEPLOY_GUIDE.md
+ANDROID_PACKAGING.md

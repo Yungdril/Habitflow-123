@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Go Pro — HabitFlow</title>
+  <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+</head>
+<body class="pricing-body">
+
+  <nav class="landing-nav">
+    <a href="dashboard.html" class="logo">Habit<span>Flow</span></a>
+    <a href="dashboard.html" class="btn-ghost">← Back to Dashboard</a>
+  </nav>
+
+  <main class="pricing-main">
+    <div class="pricing-hero">
+      <div class="hero-badge">✦ Unlock your full potential</div>
+      <h1 class="pricing-title">Simple, honest pricing.</h1>
+      <p class="pricing-sub">One plan. Everything included. Cancel anytime.</p>
+    </div>
+
+    <div class="plans-row">
+
+      <!-- FREE PLAN -->
+      <div class="plan-card">
+        <div class="plan-header">
+          <div class="plan-name">Free</div>
+          <div class="plan-price">GH₵0<span>/mo</span></div>
+          <div class="plan-desc">Get started, no card needed.</div>
+        </div>
+        <ul class="plan-features">
+          <li class="feature-yes">✓ Up to 3 habits</li>
+          <li class="feature-yes">✓ Daily completion tracking</li>
+          <li class="feature-yes">✓ Basic progress bar</li>
+          <li class="feature-no">✗ Analytics & heatmap</li>
+          <li class="feature-no">✗ Streak rewards & badges</li>
+          <li class="feature-no">✗ AI habit suggestions</li>
+          <li class="feature-no">✗ Unlimited habits</li>
+          <li class="feature-no">✗ Weekly overview</li>
+        </ul>
+        <a href="dashboard.html" class="btn-ghost btn-full">Continue Free</a>
+      </div>
+
+      <!-- PRO PLAN -->
+      <div class="plan-card pro">
+        <div class="plan-badge-top">Most Popular ✦</div>
+        <div class="plan-header">
+          <div class="plan-name">Pro</div>
+          <div class="plan-price">GH₵25<span>/mo</span></div>
+          <div class="plan-desc">Everything you need to build lasting habits.</div>
+        </div>
+        <ul class="plan-features">
+          <li class="feature-yes">✓ <strong>Unlimited habits</strong></li>
+          <li class="feature-yes">✓ Daily completion tracking</li>
+          <li class="feature-yes">✓ Full analytics & heatmap</li>
+          <li class="feature-yes">✓ <strong>Streak rewards & badges 🏆</strong></li>
+          <li class="feature-yes">✓ <strong>AI habit suggestions 🤖</strong></li>
+          <li class="feature-yes">✓ Weekly & monthly overview</li>
+          <li class="feature-yes">✓ Priority support</li>
+          <li class="feature-yes">✓ Early access to new features</li>
+        </ul>
+        <button class="btn-primary btn-full btn-lg" onclick="openPaymentModal()">
+          Upgrade to Pro →
+        </button>
+        <p class="plan-note">Pay with MTN MoMo, Vodafone Cash, or card</p>
+      </div>
+
+    </div>
+
+    <!-- Trust badges -->
+    <div class="trust-row">
+      <div class="trust-item">🔒 Secure payment via Paystack</div>
+      <div class="trust-item">🇬🇭 Built for Ghana & Africa</div>
+      <div class="trust-item">↩️ Cancel anytime</div>
+      <div class="trust-item">💬 WhatsApp support</div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h4>How do I pay with Mobile Money?</h4>
+          <p>Select "Mobile Money" on the payment screen, choose MTN or Vodafone, enter your number and approve the prompt on your phone. That's it.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Can I cancel anytime?</h4>
+          <p>Yes. Cancel from your dashboard at any time. You keep Pro access until the end of the billing period.</p>
+        </div>
+        <div class="faq-item">
+          <h4>What is AI habit suggestions?</h4>
+          <p>Our AI looks at your goals and existing habits, then recommends new ones proven to work well together. Powered by Claude AI.</p>
+        </div>
+        <div class="faq-item">
+          <h4>What happens to my data if I cancel?</h4>
+          <p>Your habits and history stay safe. You just go back to the 3-habit limit. Nothing is deleted.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== PAYMENT MODAL ===== -->
+  <div class="modal-overlay" id="payment-overlay" onclick="closePaymentModal(event)">
+    <div class="modal payment-modal" id="payment-modal">
+
+      <div class="modal-header">
+        <h2>Upgrade to Pro</h2>
+        <button class="modal-close" onclick="closePaymentModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="payment-summary">
+          <div class="payment-summary-left">
+            <div class="payment-plan-name">HabitFlow Pro</div>
+            <div class="payment-plan-cycle">Monthly subscription</div>
+          </div>
+          <div class="payment-amount">GH₵25<span>/mo</span></div>
+        </div>
+
+        <div id="pay-error" class="auth-error hidden"></div>
+        <div id="pay-success" class="auth-success hidden"></div>
+
+        <!-- Step 1: User info -->
+        <div id="step-info" class="pay-step active">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="pay-name" placeholder="Your full name" />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="pay-email" placeholder="you@example.com" />
+          </div>
+          <button class="btn-primary btn-full" onclick="goToPayMethod()">Continue →</button>
+        </div>
+
+        <!-- Step 2: Payment method -->
+        <div id="step-method" class="pay-step">
+          <p class="step-label">Choose payment method</p>
+          <div class="pay-methods">
+            <div class="pay-method selected" onclick="selectMethod(this, 'momo')" data-method="momo">
+              <span class="pay-method-icon">📱</span>
+              <div>
+                <div class="pay-method-name">Mobile Money</div>
+                <div class="pay-method-sub">MTN MoMo · Vodafone Cash · AirtelTigo</div>
+              </div>
+              <span class="pay-method-check">✓</span>
+            </div>
+            <div class="pay-method" onclick="selectMethod(this, 'card')" data-method="card">
+              <span class="pay-method-icon">💳</span>
+              <div>
+                <div class="pay-method-name">Card Payment</div>
+                <div class="pay-method-sub">Visa · Mastercard · Ghana cards</div>
+              </div>
+              <span class="pay-method-check">✓</span>
+            </div>
+          </div>
+
+          <!-- MoMo fields -->
+          <div id="momo-fields" class="method-fields">
+            <div class="form-group">
+              <label>Mobile Money Network</label>
+              <select id="momo-network">
+                <option value="mtn">📱 MTN Mobile Money</option>
+                <option value="vod">📱 Vodafone Cash</option>
+                <option value="tgo">📱 AirtelTigo Money</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>MoMo Number</label>
+              <input type="tel" id="momo-number" placeholder="e.g. 0241234567" maxlength="10" />
+            </div>
+          </div>
+
+          <!-- Card fields (handled by Paystack popup) -->
+          <div id="card-fields" class="method-fields hidden">
+            <p class="card-note">🔒 You'll be redirected to Paystack's secure card page after clicking Pay.</p>
+          </div>
+
+          <div class="pay-total-row">
+            <span>Total today</span>
+            <span class="pay-total-amount">GH₵25.00</span>
+          </div>
+
+          <button class="btn-primary btn-full btn-lg" id="pay-btn" onclick="initiatePayment()">
+            <span>Pay GH₵25 →</span>
+          </button>
+          <button class="btn-ghost btn-full" onclick="goBack()" style="margin-top:8px">← Back</button>
+
+          <div class="paystack-badge">
+            <span>Secured by</span>
+            <strong>Paystack</strong>
+            <span>🔒</span>
+          </div>
+        </div>
+
+        <!-- Step 3: Processing -->
+        <div id="step-processing" class="pay-step processing-step">
+          <div class="spinner"></div>
+          <h3>Processing payment…</h3>
+          <p id="processing-msg">Please wait while we confirm your payment.</p>
+        </div>
+
+        <!-- Step 4: Success -->
+        <div id="step-success" class="pay-step success-step">
+          <div class="success-icon">🎉</div>
+          <h3>You're now Pro!</h3>
+          <p>Welcome to HabitFlow Pro. Your account has been upgraded.</p>
+          <div class="pro-unlocked-list">
+            <div class="pro-unlock-item">✓ Unlimited habits unlocked</div>
+            <div class="pro-unlock-item">✓ AI habit suggestions active</div>
+            <div class="pro-unlock-item">✓ Streak badges enabled</div>
+          </div>
+          <button class="btn-primary btn-full" onclick="goToDashboard()">Go to Dashboard →</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- Paystack JS -->
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <script type="module" src="payment.js"></script>
+  <script>
+    let selectedPayMethod = 'momo';
+
+    function selectMethod(el, method) {
+      selectedPayMethod = method;
+      document.querySelectorAll('.pay-method').forEach(m => m.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById('momo-fields').classList.toggle('hidden', method !== 'momo');
+      document.getElementById('card-fields').classList.toggle('hidden', method !== 'card');
+    }
+
+    function goToPayMethod() {
+      const name = document.getElementById('pay-name').value.trim();
+      const email = document.getElementById('pay-email').value.trim();
+      if (!name || !email) {
+        showPayError('Please fill in your name and email.');
+        return;
+      }
+      clearPayMessages();
+      showStep('step-method');
+    }
+
+    function goBack() { showStep('step-info'); }
+
+    function showStep(id) {
+      document.querySelectorAll('.pay-step').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function openPaymentModal() {
+      // Pre-fill from Firebase auth if available
+      document.getElementById('payment-overlay').classList.add('open');
+    }
+
+    function closePaymentModal(e) {
+      if (e && e.target !== document.getElementById('payment-overlay')) return;
+      document.getElementById('payment-overlay').classList.remove('open');
+    }
+
+    function goToDashboard() { window.location.href = 'dashboard.html'; }
+
+    function showPayError(msg) {
+      const el = document.getElementById('pay-error');
+      el.textContent = msg; el.classList.remove('hidden');
+    }
+    function clearPayMessages() {
+      ['pay-error','pay-success'].forEach(id => {
+        const el = document.getElementById(id);
+        el.textContent = ''; el.classList.add('hidden');
+      });
+    }
+
+    function showToast(msg, type='success') {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.className = `toast show ${type}`;
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+  </script>
+</body>
+</html>

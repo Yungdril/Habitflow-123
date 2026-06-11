@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — HabitFlow</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico"/>
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png"/>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#E8631A"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="HabitFlow"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+</head>
+<body class="dashboard-body">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-top">
+      <a href="index.html" class="logo">Habit<span>Flow</span></a>
+      <button class="sidebar-close" id="sidebar-close" onclick="toggleSidebar()">✕</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-view="today">
+        <span class="nav-icon">🏠</span> Today
+      </a>
+      <a href="#" class="nav-item" data-view="weekly">
+        <span class="nav-icon">📅</span> Weekly
+      </a>
+      <a href="#" class="nav-item" data-view="analytics">
+        <span class="nav-icon">📊</span> Analytics
+      </a>
+      <a href="#" class="nav-item" data-view="all-habits">
+        <span class="nav-icon">📋</span> All Habits
+      </a>
+      <a href="about.html" class="nav-item">
+        <span class="nav-icon">ℹ️</span> About
+      </a>
+      <a href="#" class="nav-item" data-view="badges">
+        <span class="nav-icon">🏆</span> Badges
+      </a>
+      <button class="nav-item ai-nav-btn" onclick="openAISuggestions()">
+        <span class="nav-icon">🤖</span> AI Suggestions 
+      </button>
+    </nav>
+
+    <div class="upgrade-cta" id="upgrade-btn" onclick="window.location.href='pricing.html'">
+      <div class="upgrade-cta-icon">⚡</div>
+      <div>
+        <div class="upgrade-cta-title">Upgrade to Pro</div>
+        <div class="upgrade-cta-sub">AI · Badges · Unlimited</div>
+      </div>
+    </div>
+    <div class="pro-active-badge hidden" id="pro-badge">✦ HabitFlow Pro Active</div>
+
+    <div class="sidebar-bottom">
+      <div class="user-chip" id="user-chip">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <div class="user-info">
+          <span id="user-name-sidebar">Loading…</span>
+          <span id="user-email-sidebar" class="user-email-small">—</span>
+        </div>
+      </div>
+      <div class="sidebar-actions">
+        <button class="btn-icon" onclick="toggleDarkMode()" title="Toggle dark mode">🌙</button>
+        <button class="btn-icon" onclick="handleLogout()" title="Log out">🚪</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main-content">
+
+    <!-- Top bar -->
+    <header class="topbar">
+      <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+      <div class="topbar-right">
+        <span id="topbar-date" class="topbar-date"></span>
+        <button class="btn-primary" onclick="openAddModal()">+ Add Habit</button>
+      </div>
+    </header>
+
+    <!-- ===== VIEW: TODAY ===== -->
+    <section class="view active" id="view-today">
+      <div class="view-header">
+        <div>
+          <h1 id="greeting">Good morning! 👋</h1>
+          <p class="view-sub" id="today-label">Here's your day at a glance</p>
+        </div>
+        <div class="streak-badge" id="streak-badge">
+          🔥 <span id="streak-count">0</span> day streak
+        </div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-total">0</div>
+          <div class="stat-label">Today's Habits</div>
+        </div>
+        <div class="stat-card accent">
+          <div class="stat-value" id="stat-done">0</div>
+          <div class="stat-label">Completed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-pct">0%</div>
+          <div class="stat-label">Progress</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-streak">0</div>
+          <div class="stat-label">Day Streak 🔥</div>
+        </div>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="progress-section">
+        <div class="progress-label">
+          <span>Today's completion</span>
+          <span id="progress-pct-label">0%</span>
+        </div>
+        <div class="progress-track big">
+          <div class="progress-fill" id="main-progress" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- Filter tabs -->
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="filterHabits('all', this)">All</button>
+        <button class="filter-tab" onclick="filterHabits('pending', this)">Pending</button>
+        <button class="filter-tab" onclick="filterHabits('done', this)">Done</button>
+        <button class="filter-tab" onclick="filterHabits('Wellness', this)">Wellness</button>
+        <button class="filter-tab" onclick="filterHabits('Fitness', this)">Fitness</button>
+        <button class="filter-tab" onclick="filterHabits('Learning', this)">Learning</button>
+        <button class="filter-tab" onclick="filterHabits('Mind', this)">Mind</button>
+      </div>
+
+      <!-- Habits list -->
+      <div class="habits-list" id="habits-list">
+        <div class="empty-state" id="empty-state">
+          <div class="empty-icon">🌱</div>
+          <h3>No habits yet</h3>
+          <p>Add your first habit to start building a better you.</p>
+          <button class="btn-primary" onclick="openAddModal()">+ Add your first habit</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== VIEW: WEEKLY ===== -->
+    <section class="view" id="view-weekly">
+      <div class="view-header">
+        <div>
+          <h1>Weekly Overview</h1>
+          <p class="view-sub">Your habit performance this week</p>
+        </div>
+      </div>
+      <div class="weekly-grid" id="weekly-grid"></div>
+      <div class="weekly-chart" id="weekly-chart"></div>
+    </section>
+
+    <!-- ===== VIEW: ANALYTICS ===== -->
+    <section class="view" id="view-analytics">
+      <div class="view-header">
+        <div>
+          <h1>Analytics</h1>
+          <p class="view-sub">30-day performance breakdown</p>
+        </div>
+      </div>
+      <div class="analytics-grid" id="analytics-grid">
+        <div class="analytics-card">
+          <h3>Completion Rate</h3>
+          <div class="big-number" id="ana-rate">—</div>
+          <p>Last 30 days average</p>
+        </div>
+        <div class="analytics-card">
+          <h3>Best Streak</h3>
+          <div class="big-number" id="ana-best-streak">— 🔥</div>
+          <p>Consecutive days completed all habits</p>
+        </div>
+        <div class="analytics-card">
+          <h3>Total Completions</h3>
+          <div class="big-number" id="ana-total">—</div>
+          <p>All-time habit completions</p>
+        </div>
+        <div class="analytics-card">
+          <h3>Most Consistent</h3>
+          <div class="big-number habit-name-small" id="ana-best-habit">—</div>
+          <p>Your most completed habit</p>
+        </div>
+      </div>
+
+      <div class="heatmap-section">
+        <h3>Activity Heatmap <span class="heatmap-sub">(last 30 days)</span></h3>
+        <div class="heatmap" id="heatmap"></div>
+      </div>
+    </section>
+
+    <!-- ===== VIEW: ALL HABITS ===== -->
+    <section class="view" id="view-all-habits">
+      <div class="view-header">
+        <div>
+          <h1>All Habits</h1>
+          <p class="view-sub">Manage and edit your habits</p>
+        </div>
+        <button class="btn-primary" onclick="openAddModal()">+ Add Habit</button>
+      </div>
+      <div class="all-habits-list" id="all-habits-list"></div>
+    </section>
+
+    <!-- ===== VIEW: BADGES ===== -->
+    <section class="view" id="view-badges">
+      <div class="view-header">
+        <div>
+          <h1>Badges &amp; Rewards 🏆</h1>
+          <p class="view-sub">Earn badges for building consistent habits</p>
+        </div>
+      </div>
+      <div id="badges-container"></div>
+    </section>
+
+  </main>
+
+  <!-- ===== PRO GATE MODAL ===== -->
+  <div class="modal-overlay" id="pro-gate-overlay" onclick="closeProGate(event)">
+    <div class="modal pro-gate-modal">
+      <div class="modal-header">
+        <h2>⚡ Pro Feature</h2>
+        <button class="modal-close" onclick="closeProGate()">✕</button>
+      </div>
+      <div class="modal-body pro-gate-body">
+        <div class="pro-gate-icon">🚀</div>
+        <p id="pro-gate-msg">This feature requires HabitFlow Pro.</p>
+        <div class="pro-gate-features">
+          <div class="pgf-item">✓ Unlimited habits</div>
+          <div class="pgf-item">✓ AI habit suggestions</div>
+          <div class="pgf-item">✓ Streak badges &amp; rewards</div>
+          <div class="pgf-item">✓ Full analytics</div>
+        </div>
+        <div class="pro-gate-price">Only <strong>GH₵25/month</strong></div>
+        <button class="btn-primary btn-full btn-lg" onclick="goToPricing()">Upgrade to Pro →</button>
+        <button class="btn-ghost btn-full" onclick="closeProGate()" style="margin-top:8px">Maybe later</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== AI SUGGESTIONS MODAL ===== -->
+  <div class="modal-overlay ai-modal-overlay" id="ai-overlay" onclick="closeAIOverlay(event)">
+    <div class="modal ai-modal">
+      <div class="modal-header">
+        <div>
+          <h2>🤖 AI Habit Suggestions</h2>
+          <p style="font-size:.82rem;color:var(--text3);margin-top:2px">Powered by Claude AI</p>
+        </div>
+        <button class="modal-close" onclick="closeAIOverlay()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="ai-results">
+          <div class="ai-loading"><div class="spinner"></div><p>Loading suggestions…</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ADD / EDIT HABIT MODAL ===== -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h2 id="modal-title">Add New Habit</h2>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="edit-id" />
+
+        <div class="form-group">
+          <label>Habit name *</label>
+          <input type="text" id="habit-name" placeholder="e.g. Morning run, Read 20 pages..." maxlength="60" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Category</label>
+            <select id="habit-category">
+              <option value="Wellness">🧘 Wellness</option>
+              <option value="Fitness">🏋️ Fitness</option>
+              <option value="Learning">📚 Learning</option>
+              <option value="Mind">🧠 Mind</option>
+              <option value="Social">💬 Social</option>
+              <option value="Finance">💰 Finance</option>
+              <option value="Other">✦ Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Time</label>
+            <select id="habit-time">
+              <option value="Morning">🌅 Morning</option>
+              <option value="Afternoon">☀️ Afternoon</option>
+              <option value="Evening">🌆 Evening</option>
+              <option value="Anytime">⏰ Anytime</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Notes (optional)</label>
+          <textarea id="habit-notes" placeholder="Any notes about this habit..." rows="2" maxlength="200"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Emoji icon</label>
+          <div class="emoji-picker">
+            <span class="emoji-opt selected" onclick="selectEmoji(this, '✦')">✦</span>
+            <span class="emoji-opt" onclick="selectEmoji(this, '🏃')">🏃</span>
+            <span class="emoji-opt" onclick="selectEmoji(this, '📖')">📖</span>
+            <span class="emoji-opt" onclick="selectEmoji(this, '🧘')">🧘</span>
+            <span class="emoji-opt" onclick="selectEmoji(this, '💪')">💪</span>
+            <span class="emoji-opt" onclick="selectEmoji(this, '🥗')">🥗</span>
+            <span class="emoji-opt" onclick="selectEmoji(this, '💧')">💧</span>
+            <span class="emoji-opt" onclick="selectEmoji(this, '✍️')">✍️</span>
+            <span class="emoji-opt" onclick="selectEmoji(this, '🎯')">🎯</span>
+            <span class="emoji-opt" onclick="selectEmoji(this, '🎨')">🎨</span>
+            <span class="emoji-opt" onclick="selectEmoji(this, '💤')">💤</span>
+            <span class="emoji-opt" onclick="selectEmoji(this, '🌿')">🌿</span>
+          </div>
+          <input type="hidden" id="habit-emoji" value="✦" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn-primary" onclick="saveHabit()">Save Habit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <script type="module" src="app.js"></script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(r => console.log('SW registered'))
+          .catch(e => console.log('SW failed:', e));
+      });
+    }
+  </script>
+</body>
+</html>
